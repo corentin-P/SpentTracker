@@ -4,23 +4,34 @@ import java.util.ArrayList;
 
 public class Model {
     private ConnectionDB connection;
+    private View view;
 
-    public Model(ConnectionDB c){
+    /** Creates a model */
+    public Model(ConnectionDB c, View v){
         this.connection = c;
+        this.view = v;
     }
 
-    public JPanel names(String table)
+    /** add the names of the table on the view
+     *
+     * @param table : table name "categories" or "firms" or "mode"
+     */
+    public void names(String table)
     {
         ArrayList<String> names = connection.getNames(table);
-        System.out.println(names);
-        JPanel p = new JPanel();
-        JPanel ligne = new JPanel(new GridLayout(names.size(), 2));
-        for (int i = 0; i<names.size(); i++){
-            ligne.add(new JLabel(names.get(i)));
-            ligne.add(new JButton("Modifier"));
-        }
-        p.add(ligne);
-        return p;
+        view.names(names, table);
     }
 
+    /** modify one line of the table
+     *
+     * @param table : table to modify (categories, mode, firms)
+     * @param id : id of the line to modify
+     */
+    public void modifyCMF(String table, int id) throws Exception{
+        if (table.equals("categories") || table.equals("mode") || table.equals("firms")) {
+            new ViewModify(table, connection, id);
+        } else {
+            throw new Exception("table not found");
+        }
+    }
 }

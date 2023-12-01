@@ -6,13 +6,9 @@ public class ConnectionDB {
     private PreparedStatement stmt;
     private String url= "jdbc:mysql://localhost:3306/spendtracker";
 
-    /**
-     * @param table : string (categories or firms or mode)
-     * return column 'name' from table
-     */
-    public ArrayList<String> getNames (String table){
-        String query = "Select name from "+table;
-        ArrayList<String> names = new ArrayList<String>();
+    public ArrayList<String> getElementFromTable(String table, String ColumnName) {
+        String query = "Select " + ColumnName + " from " + table;
+        ArrayList<String> elements = new ArrayList<String>();
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
         }
@@ -26,8 +22,8 @@ public class ConnectionDB {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()){
-                String name = rs.getString("name");
-                names.add(name);
+                String name = rs.getString(ColumnName);
+                elements.add(name);
             }
             stmt.close();
             con.close();
@@ -35,6 +31,16 @@ public class ConnectionDB {
         }catch(SQLException e){
             System.err.println("SQL Exception :"+ e.getMessage());
         }
-        return names;
+        return elements;
+    }
+
+    /**
+     *
+     * @param table : "categories" or "firms" or "mode"
+     *
+     * return column 'name' from table
+     */
+    public ArrayList<String> getNames (String table){
+        return getElementFromTable(table, "name");
     }
 }
