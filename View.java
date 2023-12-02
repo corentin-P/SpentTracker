@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public  class View extends JFrame {
+public  class View extends JFrame implements Views{
     private JPanel principal;
     private JMenuBar menuBar;
     private JMenu menuFile, menuEdit;
@@ -68,12 +68,17 @@ public  class View extends JFrame {
         add(principal);
         repaint();
         setVisible(true);
-        pack();
-        setExtendedState(this.MAXIMIZED_BOTH);
     }
 
-    public void names(ArrayList<String> names, String table){
+    /** displays the page for the categories/firms/Payment mode menus
+     *
+     * @param names : names from a table
+     * @param table : table of the datas
+     * @param title : title of the page (just for display)
+     */
+    public void names(ArrayList<String> names, String table, String title){
         JPanel p = new JPanel();
+        JPanel panelTitle = new JPanel(new BorderLayout());
         JPanel ligne = new JPanel(new GridLayout(names.size(), 2));
         for (int i = 0; i<names.size(); i++){
             ligne.add(new JLabel(names.get(i)));
@@ -81,7 +86,12 @@ public  class View extends JFrame {
             modify.addActionListener(controller);
             ligne.add(modify);
         }
-        p.add(ligne);
+
+        JLabel labelTitle = new JLabel(title, SwingConstants.CENTER);
+        panelTitle.add(labelTitle, BorderLayout.NORTH);
+        panelTitle.add(ligne, BorderLayout.CENTER);
+        labelTitle.setPreferredSize(new Dimension(200, 100));
+        p.add(panelTitle, BorderLayout.PAGE_START);
         changePanel(p);
     }
 

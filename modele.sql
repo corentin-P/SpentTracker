@@ -8,21 +8,21 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema SpendTracker
+-- Schema SpentTracker
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema SpendTracker
+-- Schema SpentTracker
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `SpendTracker` DEFAULT CHARACTER SET utf8 ;
-USE `SpendTracker` ;
+CREATE SCHEMA IF NOT EXISTS `SpentTracker` DEFAULT CHARACTER SET utf8 ;
+USE `SpentTracker` ;
 
 -- -----------------------------------------------------
--- Table `SpendTracker`.`Categories`
+-- Table `SpentTracker`.`Categories`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `SpendTracker`.`Categories` ;
+DROP TABLE IF EXISTS `SpentTracker`.`Categories` ;
 
-CREATE TABLE IF NOT EXISTS `SpendTracker`.`Categories` (
+CREATE TABLE IF NOT EXISTS `SpentTracker`.`Categories` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
@@ -30,11 +30,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SpendTracker`.`Firms`
+-- Table `SpentTracker`.`Firms`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `SpendTracker`.`Firms` ;
+DROP TABLE IF EXISTS `SpentTracker`.`Firms` ;
 
-CREATE TABLE IF NOT EXISTS `SpendTracker`.`Firms` (
+CREATE TABLE IF NOT EXISTS `SpentTracker`.`Firms` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `place` VARCHAR(45) NULL,
@@ -43,11 +43,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SpendTracker`.`Mode`
+-- Table `SpentTracker`.`Mode`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `SpendTracker`.`Mode` ;
+DROP TABLE IF EXISTS `SpentTracker`.`Mode` ;
 
-CREATE TABLE IF NOT EXISTS `SpendTracker`.`Mode` (
+CREATE TABLE IF NOT EXISTS `SpentTracker`.`Mode` (
   `id` INT NOT NULL,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
@@ -55,11 +55,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SpendTracker`.`People`
+-- Table `SpentTracker`.`People`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `SpendTracker`.`People` ;
+DROP TABLE IF EXISTS `SpentTracker`.`People` ;
 
-CREATE TABLE IF NOT EXISTS `SpendTracker`.`People` (
+CREATE TABLE IF NOT EXISTS `SpentTracker`.`People` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `firstName` VARCHAR(45) NULL,
@@ -71,11 +71,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SpendTracker`.`Spend`
+-- Table `SpentTracker`.`Spend`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `SpendTracker`.`Spend` ;
+DROP TABLE IF EXISTS `SpentTracker`.`Spend` ;
 
-CREATE TABLE IF NOT EXISTS `SpendTracker`.`Spend` (
+CREATE TABLE IF NOT EXISTS `SpentTracker`.`Spend` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `total` INT NOT NULL,
   `online` TINYINT NOT NULL,
@@ -91,22 +91,22 @@ CREATE TABLE IF NOT EXISTS `SpendTracker`.`Spend` (
   INDEX `fk_Spend_Mode1_idx` (`Mode_id` ASC),
   CONSTRAINT `fk_Spend_Categories`
     FOREIGN KEY (`Categories_id`)
-    REFERENCES `SpendTracker`.`Categories` (`id`)
+    REFERENCES `SpentTracker`.`Categories` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Spend_Firms1`
     FOREIGN KEY (`Firms_id`)
-    REFERENCES `SpendTracker`.`Firms` (`id`)
+    REFERENCES `SpentTracker`.`Firms` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Spend_People1`
     FOREIGN KEY (`People_id`)
-    REFERENCES `SpendTracker`.`People` (`id`)
+    REFERENCES `SpentTracker`.`People` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Spend_Mode1`
     FOREIGN KEY (`Mode_id`)
-    REFERENCES `SpendTracker`.`Mode` (`id`)
+    REFERENCES `SpentTracker`.`Mode` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -117,25 +117,25 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `SpendTracker`.`Categories`
+-- Data for table `SpentTracker`.`Categories`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `SpendTracker`;
-INSERT INTO `SpendTracker`.`Categories` (`id`, `name`) VALUES (1, 'Housing');
-INSERT INTO `SpendTracker`.`Categories` (`id`, `name`) VALUES (2, 'Food');
+USE `SpentTracker`;
+INSERT INTO `SpentTracker`.`Categories` (`id`, `name`) VALUES (1, 'Housing');
+INSERT INTO `SpentTracker`.`Categories` (`id`, `name`) VALUES (2, 'Food');
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `SpendTracker`.`Mode`
+-- Data for table `SpentTracker`.`Mode`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `SpendTracker`;
-INSERT INTO `SpendTracker`.`Mode` (`id`, `name`) VALUES (1, 'credit card');
-INSERT INTO `SpendTracker`.`Mode` (`id`, `name`) VALUES (2, 'cash');
-INSERT INTO `SpendTracker`.`Mode` (`id`, `name`) VALUES (3, 'bank transfer');
-INSERT INTO `SpendTracker`.`Mode` (`id`, `name`) VALUES (4, 'Paypal');
+USE `SpentTracker`;
+INSERT INTO `SpentTracker`.`Mode` (`id`, `name`) VALUES (1, 'credit card');
+INSERT INTO `SpentTracker`.`Mode` (`id`, `name`) VALUES (2, 'cash');
+INSERT INTO `SpentTracker`.`Mode` (`id`, `name`) VALUES (3, 'bank transfer');
+INSERT INTO `SpentTracker`.`Mode` (`id`, `name`) VALUES (4, 'Paypal');
 
 COMMIT;
 

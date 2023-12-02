@@ -33,13 +33,13 @@ public class Controller implements ActionListener {
                 System.out.println("Spend");
             }
             else if (text.equals("Categories")){
-                model.names("categories");
+                model.names("categories", "Categories");
             }
             else if (text.equals("Firms")){
-                model.names("firms");
+                model.names("firms", "Firms");
             }
             else if (text.equals("Payment Mode")){
-                model.names("mode");
+                model.names("mode", "Payment Mode");
             }
             else if (text.equals("People")){
                 System.out.println("People");
@@ -58,10 +58,18 @@ public class Controller implements ActionListener {
                 }
             }
             else if (title.equals("mode")) {
-                System.out.println(title+" : "+element.getId());
+                try {
+                    model.modifyCMF(title, element.getId());
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
             else if (title.equals("firms")) {
-                System.out.println(title+" : "+element.getId());
+                try {
+                    model.modifyCMF(title, element.getId());
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         }
     }
