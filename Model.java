@@ -1,26 +1,36 @@
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Model {
     private ConnectionDB connection;
+    private View view;
+    private HashMap<String, Views> views;
 
-    public Model(ConnectionDB c){
+    /** Creates a model */
+    public Model(ConnectionDB c, View v, HashMap<String, Views> views){
         this.connection = c;
+        this.view = v;
+        this.views = views;
     }
 
-    public JPanel names(String table)
+    /** add the names of the table on the view
+     *
+     * @param table : table name "categories" or "firms" or "mode"
+     */
+    public void names(String table, String title)
     {
-        ArrayList<String> names = connection.getNames(table);
-        System.out.println(names);
-        JPanel p = new JPanel();
-        JPanel ligne = new JPanel(new GridLayout(names.size(), 2));
-        for (int i = 0; i<names.size(); i++){
-            ligne.add(new JLabel(names.get(i)));
-            ligne.add(new JButton("Modifier"));
-        }
-        p.add(ligne);
-        return p;
+        ((ViewsCMF)views.get(table)).display(table);
     }
 
+    /** modify one line of the table
+     *
+     * @param table : table to modify (categories, mode, firms)
+     * @param id : id of the line to modify
+     */
+    public void modifyCMF(String table, int id) throws Exception{
+        if (table.equals("categories") || table.equals("mode") || table.equals("firms")) {
+            new ViewModifyCMF(table, connection, id, views);
+        } else {
+            throw new Exception("table not found");
+        }
+    }
 }

@@ -6,33 +6,71 @@ public class Controller implements ActionListener {
     private View view;
     private Model model;
 
+    /** Creates a controller
+     *
+     * @param : view = vue principale de l'application
+     */
     public Controller(View view, Model model) {
         this.view = view;
         this.model = model;
     }
 
+
     @Override
+    /** Manages the events of the application
+     *
+     * @param e : event
+     * */
     public void actionPerformed(ActionEvent e) {
+        // manage the content of the menus
         if(e.getSource() instanceof JMenuItem){
-            if (((JMenuItem)e.getSource()).getText().equals("Exit")){
+            JMenuItem item =  ((JMenuItem)e.getSource());
+            String text = item.getText();
+            if (text.equals("Exit")){
                 System.exit(0);
             }
-            if (((JMenuItem)e.getSource()).getText().equals("Spend")){
+            else if (text.equals("Spend")){
                 System.out.println("Spend");
             }
-            if (((JMenuItem)e.getSource()).getText().equals("Categories")){
-                view.changePanel(model.names("categories"));
+            else if (text.equals("Categories")){
+                model.names("categories", "Categories");
             }
-            if (((JMenuItem)e.getSource()).getText().equals("Firms")){
-                view.changePanel(model.names("firms"));
+            else if (text.equals("Firms")){
+                model.names("firms", "Firms");
             }
-            if (((JMenuItem)e.getSource()).getText().equals("Payment Mode")){
-                view.changePanel(model.names("mode"));
+            else if (text.equals("Payment Mode")){
+                model.names("mode", "Payment Mode");
             }
-            if (((JMenuItem)e.getSource()).getText().equals("People")){
+            else if (text.equals("People")){
                 System.out.println("People");
             }
         }
 
+
+        if (e.getSource() instanceof IdJButton) {
+            IdJButton element = ((IdJButton)e.getSource());
+            String title = element.getTable();
+            if (title.equals("categories")) {
+                try {
+                    model.modifyCMF(title, element.getId());
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            else if (title.equals("mode")) {
+                try {
+                    model.modifyCMF(title, element.getId());
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            else if (title.equals("firms")) {
+                try {
+                    model.modifyCMF(title, element.getId());
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
     }
 }
