@@ -32,6 +32,9 @@ public abstract class ViewsCMF {
     public void setName(int id, String value) {
         names.set(id, value);
     }
+    public void addName(String value) {
+        names.add(value);
+    }
 
     /** displays the page of the app
      *

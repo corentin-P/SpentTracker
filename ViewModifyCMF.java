@@ -71,4 +71,59 @@ public class ViewModifyCMF extends JDialog {
         setVisible(true);
         pack();
     }
+
+    /** Creates a View to add one element in categories, firms or payement table
+     * @param connection : connection to the db
+     * @param table : table in which we will add
+     */
+    public ViewModifyCMF(String table, ConnectionDB connection, HashMap<String, Views> views){
+        super();
+        this.connection = connection;
+        this.views = views;
+        setLayout(new GridLayout(table.equals("firms") ? 4 : 3, 0));
+        panelName = new JPanel(new GridLayout(1,2));
+        panelPlace = null;
+        ArrayList<String> names = connection.getElementsFromTable(table, "name");
+        name = new JLabel("Name");
+        error = new JLabel();
+        place = null;
+        fieldName = new JTextField(30);
+        fieldPlace = new JTextField(30);
+        panelName.add(name, CENTER_ALIGNMENT);
+        panelName.add(fieldName);
+        add(panelName);
+
+        if (table.equals("firms")) {
+            panelPlace = new JPanel(new GridLayout(1,2));
+            place = new JLabel("Place");
+            ArrayList<String> places = connection.getElementsFromTable(table, "place");
+            panelPlace.add(place);
+            panelPlace.add(fieldPlace);
+            add(panelPlace);
+        }
+        add(error);
+
+        JButton validForm = new JButton("Valid");
+        validForm.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (connection.insertNamePlaceInCMF(table, new String[]{fieldName.getText(), table.equals("firms")? fieldPlace.getText():null} )){
+                    dispose();
+                    ((ViewsCMF)views.get(table)).addName(fieldName.getText());
+                    if (table.equals("firms")) {
+                        ((ViewFirms)views.get(table)).addPlace(fieldPlace.getText());
+                    }
+                    // update the main frame
+                    ((ViewsCMF)views.get(table)).display(table);
+                } else {
+                    error.setText("Une erreur est survenue");
+                    repaint();
+                }
+            }
+        });
+
+        add(validForm);
+        setVisible(true);
+        pack();
+    }
 }

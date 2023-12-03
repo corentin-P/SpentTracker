@@ -69,4 +69,30 @@ public class ConnectionDB {
         }
         return true;
     }
+
+    public boolean insertNamePlaceInCMF(String table, String[] values){
+        String query = "INSERT INTO " + table + "(name"+(table.equals("firms") ? ", place" :"" )+") Values(? "+(table.equals("firms") ? "?":"")+" )";
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        }
+        catch (java.lang.ClassNotFoundException e){
+            System.err.print("ClassNotFoundException (try:)");
+            System.err.print(e.getMessage());
+            return false;
+        }
+        try{
+            con = DriverManager.getConnection(url, "root", "");
+            stmt = con.prepareStatement(query);
+            stmt.setString(1, values[0]);
+            if (table.equals("firms")) stmt.setString(2, values[1]);
+            stmt.executeUpdate();
+            stmt.close();
+            con.close();
+
+        }catch(SQLException e){
+            System.err.println("SQL Exception :"+ e.getMessage());
+            return false;
+        }
+        return true;
+    }
 }
