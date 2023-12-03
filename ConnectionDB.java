@@ -44,7 +44,7 @@ public class ConnectionDB {
         return getElementsFromTable(table, "name");
     }
 
-    public void modifyStringElementOfTable(int id, String table, String ColumnName, String element) {
+    public boolean modifyStringElementOfTable(int id, String table, String ColumnName, String element) {
         String query = "Update " + table + " SET " + ColumnName + " = ? where id = ?";
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -52,6 +52,7 @@ public class ConnectionDB {
         catch (java.lang.ClassNotFoundException e){
             System.err.print("ClassNotFoundException (try:)");
             System.err.print(e.getMessage());
+            return false;
         }
         try{
             con = DriverManager.getConnection(url, "root", "");
@@ -64,6 +65,8 @@ public class ConnectionDB {
 
         }catch(SQLException e){
             System.err.println("SQL Exception :"+ e.getMessage());
+            return false;
         }
+        return true;
     }
 }

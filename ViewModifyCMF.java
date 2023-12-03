@@ -8,12 +8,12 @@ import java.util.HashMap;
 public class ViewModifyCMF extends JDialog {
 
     private JPanel panelName, panelPlace;
-    private JLabel name, place;
+    private JLabel name, place, error;
     private JTextField fieldName, fieldPlace;
     private ConnectionDB connection;
     private HashMap<String, Views> views;
 
-    /** Creates a View to modify one element
+    /** Creates a View to modify one element for categories, firms or payement mode pages
      * @param connection : connection to the db
      * @param table : table to modify
      * @param id : id of the line to modify
@@ -22,11 +22,12 @@ public class ViewModifyCMF extends JDialog {
         super();
         this.connection = connection;
         this.views = views;
-        setLayout(new GridLayout(table.equals("firms") ? 3 : 2, 0));
+        setLayout(new GridLayout(table.equals("firms") ? 4 : 3, 0));
         panelName = new JPanel(new GridLayout(1,2));
         panelPlace = null;
         ArrayList<String> names = connection.getElementsFromTable(table, "name");
         name = new JLabel("Name");
+        error = new JLabel();
         place = null;
         fieldName = new JTextField(30);
         fieldName.setText(names.get(id-1));
@@ -44,19 +45,25 @@ public class ViewModifyCMF extends JDialog {
             panelPlace.add(fieldPlace);
             add(panelPlace);
         }
+        add(error);
 
         JButton validForm = new JButton("Valid");
         validForm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                connection.modifyStringElementOfTable(id, table, "name", fieldName.getText());
-                if (!fieldPlace.getText().equals("")) connection.modifyStringElementOfTable(id, table, "place", fieldPlace.getText());
-                dispose();
-                ((ViewsCMF)views.get(table)).setName(id-1, fieldName.getText());
-                if (table.equals("firms")) {
-                    ((ViewFirms)views.get(table)).setPlace(id-1, fieldPlace.getText());
+                if (connection.modifyStringElementOfTable(id, table, "name", fieldName.getText())){
+                    if (!fieldPlace.getText().equals("")) connection.modifyStringElementOfTable(id, table, "place", fieldPlace.getText());
+                    dispose();
+                    ((ViewsCMF)views.get(table)).setName(id-1, fieldName.getText());
+                    if (table.equals("firms")) {
+                        ((ViewFirms)views.get(table)).setPlace(id-1, fieldPlace.getText());
+                    }
+                    // update the main frame
+                    ((ViewsCMF)views.get(table)).display(table);
+                } else {
+                    error.setText("Une erreur est survenue");
+                    repaint();
                 }
-                ((ViewsCMF)views.get(table)).display(table);
             }
         });
 
