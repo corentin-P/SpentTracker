@@ -2,24 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class ViewCategoriesPaymentMode extends JPanel implements Views{
-    private View parentPage;
-    private ArrayList<String> names;
-    private Controller controller;
+public class ViewCategoriesPaymentMode extends ViewsCMF implements Views{
 
     public ViewCategoriesPaymentMode(View parentPage, ArrayList<String> names) {
-        super();
-        this.parentPage = parentPage;
-        this.names = names;
-        setLayout(new GridLayout(names.size(), 2));
-    }
-
-    public void addController(Controller controller){
-        this.controller = controller;
+        super(parentPage, names);
     }
 
     public void display (String table) {
-
         JPanel p = new JPanel();
         JPanel panelTitle = new JPanel(new BorderLayout());
         JPanel ligne = new JPanel(new GridLayout(names.size(), 2));
@@ -35,14 +24,6 @@ public class ViewCategoriesPaymentMode extends JPanel implements Views{
         labelTitle.setPreferredSize(new Dimension(200, 100));
         p.add(panelTitle, BorderLayout.PAGE_START);
         parentPage.changePanel(p);
-    }
-
-    public ArrayList<String> getNames() {
-        return names;
-    }
-
-    public void setNames(ArrayList<String> names) {
-        this.names = names;
     }
 
 }

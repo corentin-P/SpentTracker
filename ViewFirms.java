@@ -2,26 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class ViewFirms extends JPanel implements Views{
-    private View parentPage;
-    private ArrayList<String> names;
+public class ViewFirms extends ViewsCMF implements Views{
     private ArrayList<String> places;
-    private Controller controller;
 
     public ViewFirms(View parentPage, ArrayList<String> names, ArrayList<String> places) {
-        super();
-        this.parentPage = parentPage;
-        this.names = names;
+        super(parentPage, names);
         this.places = places;
-        setLayout(new GridLayout(names.size(), 2));
-    }
-
-    public void addController(Controller controller){
-        this.controller = controller;
     }
 
     public void display (String table) {
-
         JPanel p = new JPanel();
         JPanel panelTitle = new JPanel(new BorderLayout());
         JPanel ligne = new JPanel(new GridLayout(names.size(), 2));
@@ -39,19 +28,14 @@ public class ViewFirms extends JPanel implements Views{
         parentPage.changePanel(p);
     }
 
-    public ArrayList<String> getNames() {
-        return names;
-    }
-
-    public void setNames(ArrayList<String> names) {
-        this.names = names;
-    }
-
     public ArrayList<String> getPlaces() {
         return places;
     }
 
     public void setPlaces(ArrayList<String> places) {
         this.places = places;
+    }
+    public void setPlace(int id, String value) {
+        places.set(id, value);
     }
 }

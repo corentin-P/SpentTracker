@@ -1,15 +1,15 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Model {
     private ConnectionDB connection;
     private View view;
-    private ViewFirms mode;
+    private HashMap<String, Views> views;
 
     /** Creates a model */
-    public Model(ConnectionDB c, View v, ViewFirms mode){
+    public Model(ConnectionDB c, View v, HashMap<String, Views> views){
         this.connection = c;
         this.view = v;
-        this.mode = mode;
+        this.views = views;
     }
 
     /** add the names of the table on the view
@@ -18,12 +18,7 @@ public class Model {
      */
     public void names(String table, String title)
     {
-        if (table.equals("mode")) {
-            mode.display(table);
-        } else {
-            ArrayList<String> names = connection.getNames(table);
-            view.names(names, table, title);
-        }
+        ((ViewsCMF)views.get(table)).display(table);
     }
 
     /** modify one line of the table
@@ -33,7 +28,7 @@ public class Model {
      */
     public void modifyCMF(String table, int id) throws Exception{
         if (table.equals("categories") || table.equals("mode") || table.equals("firms")) {
-            new ViewModify(table, connection, id, this);
+            new ViewModifyCMF(table, connection, id, views);
         } else {
             throw new Exception("table not found");
         }

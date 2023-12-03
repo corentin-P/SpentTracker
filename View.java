@@ -95,5 +95,4 @@ public  class View extends JFrame implements Views{
         changePanel(p);
     }
 
-
 }
